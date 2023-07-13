@@ -1,6 +1,22 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+// app.use(express.static('./public'))
+
+const middleware1 = (req, res, next) => {
+  let isLoggedIn = false;
+  if(isLoggedIn) {
+    next()
+  } else {
+    res.send('You cannot access this content!')
+  }
+}
+
+app.use(middleware1)
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
@@ -89,4 +105,7 @@ app.listen(3000, () => {
   Frameworks: Express.js, Hapi.js, Fastify, etc.
 
   // MERN: MongoDB, Express, React, Node
+  // Images:
+  // 1. https://madooei.github.io/cs421_sp20_homepage/assets/client-server-1.png
+  // 2. https://miro.medium.com/v2/resize:fit:945/1*RgPEcCE3mHSGR-fS5lXTCQ.png
 */
