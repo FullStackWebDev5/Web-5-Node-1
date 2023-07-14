@@ -4,11 +4,10 @@ const bodyParser = require('body-parser')
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-// app.use(express.static('./public'))
+app.use(express.static('./public'))
 
 const middleware1 = (req, res, next) => {
-  let isLoggedIn = false;
+  let isLoggedIn = true;
   if(isLoggedIn) {
     next()
   } else {
@@ -46,6 +45,16 @@ app.get('/users', (req, res) => {
     }
   ]
   res.json(users)
+})
+
+app.get('/register', (req, res) => {
+  res.sendFile(__dirname + '/register.html')
+})
+
+app.post('/api/register', (req, res) => {
+  console.log(req.body)
+  const { firstName, lastName } = req.body;
+  res.send(`Welcome ${firstName} ${lastName}`)
 })
 
 app.get('/download-instagram-logo', (req, res) => {
